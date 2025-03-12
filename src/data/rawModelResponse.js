@@ -1,0 +1,111 @@
+const chunks = [
+{
+    "model":"deepseek-r1:8b",
+    "created_at":"2025-03-12T10:37:36.1570141Z",
+    "response":"\u003cthink\u003e",
+    "done":false
+},
+{
+    "model":"deepseek-r1:8b",
+    "created_at":"2025-03-12T10:37:36.3391908Z",
+    "response":"\n\n",
+    "done":false
+},
+{
+    "model":"deepseek-r1:8b",
+    "created_at":"2025-03-12T10:37:36.5326556Z",
+    "response":"\u003c/think\u003e",
+    "done":false
+},
+{
+    "model":"deepseek-r1:8b",
+    "created_at":"2025-03-12T10:37:36.728225Z",
+    "response":"\n\n",
+    "done":false
+},
+{
+    "model":"deepseek-r1:8b",
+    "created_at":"2025-03-12T10:37:36.9146787Z",
+    "response":"Hello",
+    "done":false
+},
+{
+    "model":"deepseek-r1:8b",
+    "created_at":"2025-03-12T10:37:37.1001701Z",
+    "response":"",
+    "done":false
+},
+{
+    "model":"deepseek-r1:8b",
+    "created_at":"2025-03-12T10:37:37.2801433Z",
+    "response":" Joe",
+    "done":false
+},
+{
+    "model":"deepseek-r1:8b",
+    "created_at":"2025-03-12T10:37:37.4668032Z",
+    "response":"!",
+    "done":false
+},
+{
+    "model":"deepseek-r1:8b",
+    "created_at":"2025-03-12T10:37:37.649623Z",
+    "response":" How",
+    "done":false
+},
+{
+    "model":"deepseek-r1:8b",
+    "created_at":"2025-03-12T10:37:37.8350898Z",
+    "response":" can",
+    "done":false
+},
+{
+    "model":"deepseek-r1:8b",
+    "created_at":"2025-03-12T10:37:38.0215659Z",
+    "response":" I",
+    "done":false
+},
+{
+    "model":"deepseek-r1:8b",
+    "created_at":"2025-03-12T10:37:38.1981963Z",
+    "response":" assist",
+    "done":false
+},
+{
+    "model":"deepseek-r1:8b",
+    "created_at":"2025-03-12T10:37:38.3745969Z",
+    "response":" you",
+    "done":false
+},
+{
+    "model":"deepseek-r1:8b",
+    "created_at":"2025-03-12T10:37:38.5554482Z",
+    "response":" today",
+    "done":false
+},
+{
+    "model":"deepseek-r1:8b",
+    "created_at":"2025-03-12T10:37:38.739395Z",
+    "response":"?",
+    "done":false
+},
+{
+    "model":"deepseek-r1:8b",
+    "created_at":"2025-03-12T10:37:39.1053477Z",
+    "response":" 😊",
+    "done":false
+},
+{
+    "model":"deepseek-r1:8b",
+    "created_at":"2025-03-12T10:37:39.2928727Z",
+    "response":"",
+    "done":true,
+    "done_reason":"stop",
+    "context":[128011,5159,836,374,94441,128012,128013,271,128014,271,9906,11,13142,0,2650,649,358,7945,499,3432,30,27623,232],
+    "total_duration":3409840900,
+    "load_duration":73523900,
+    "prompt_eval_count":7,
+    "prompt_eval_duration":196000000,
+    "eval_count":18,
+    "eval_duration":3137000000
+}]
