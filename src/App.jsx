@@ -1,7 +1,7 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom"
-import MainLayout from "./Layouts/MainLayout"
-import NotFoundPage from "./components/NotFoundPage"
-import NewChat from "./pages/NewChat"
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import MainLayout from './Layouts/MainLayout'
+import NotFoundPage from './components/NotFoundPage'
+import NewChat from './pages/NewChat'
 
 function App() {
   const routes = createBrowserRouter([
@@ -12,15 +12,13 @@ function App() {
       children: [
         {
           path: '/',
-          element: <NewChat />
-        }
-      ]
-    }
+          element: <NewChat />,
+        },
+      ],
+    },
   ])
 
-  return (
-    <RouterProvider router={routes} />
-  )
+  return <RouterProvider router={routes} />
 }
 
 export default App
