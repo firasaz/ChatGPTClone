@@ -9,10 +9,11 @@ import { Button } from '@/components/ui/button'
 import { Atom, ChevronDown, Send, Share, Sparkles } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import 'github-markdown-css' // Import GitHub Markdown styles
+import classNames from 'classnames'
 
 const NewChat = () => {
   const [prompt, setPrompt] = useState('')
-  const [response, setResponse] = useState('What can I help with?')
+  const [response, setResponse] = useState('')
   const [loading, setLoading] = useState(false)
 
   const sendPromptToOllama = async () => {
@@ -104,35 +105,67 @@ const NewChat = () => {
       </div>
 
       {/* Body */}
-      <div className="sm:mx-20 lg:mx-32 xl:mx-56 mt-8 flex flex-col h-full justify-between overflow-auto px-4">
-        <div className="h-full">
-          {/* User Prompt */}
-          <div className="text-right my-2">
-            <span className="px-4 py-2 rounded-full bg-neutral-700">
-              {prompt}
-            </span>
+      <div
+        className={classNames(
+          'sm:mx-20 lg:mx-32 xl:mx-56 flex flex-col h-full overflow-auto px-4',
+          !response ? 'justify-center items-center' : 'justify-between mt-8'
+        )}
+      >
+        {response && (
+          <div className="h-full">
+            {/* User Prompt */}
+            {prompt && (
+              <div className="text-right my-2">
+                <span className="px-4 py-2 rounded-full bg-neutral-700">
+                  {prompt}
+                </span>
+              </div>
+            )}
+            {response && (
+              <div className="word-break mt-5">
+                <ReactMarkdown>{response}</ReactMarkdown>
+              </div>
+            )}
           </div>
-          <div className="word-break mt-5">
-            <ReactMarkdown>{response}</ReactMarkdown>
+        )}
+        {!response && (
+          <div className="text-center h-32 relative w-full">
+            <h3 className="text-2xl font-medium mb-3">
+              What can I help you with?
+            </h3>
+            <textarea
+              type="text"
+              placeholder="Ask anything"
+              className="rounded-xl bg-neutral-700 w-full h-full p-3 focus:outline-0 resize-none"
+              onChange={e => setPrompt(e.target.value)}
+            />
+            <button
+              className="absolute bottom-2 right-2 p-2 rounded-full bg-white text-black hover:bg-neutral-300"
+              onClick={sendPromptToOllama}
+            >
+              <Send />
+            </button>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Footer */}
-      <div className="sm:mx-20 lg:mx-32 xl:mx-68 mt-4 text-center h-32 relative">
-        <textarea
-          type="text"
-          placeholder="Ask anything"
-          className="rounded-xl bg-neutral-700 w-full h-full p-3 focus:outline-0 resize-none"
-          onChange={e => setPrompt(e.target.value)}
-        />
-        <button
-          className="absolute bottom-2 right-2 p-2 rounded-full bg-white text-black hover:bg-neutral-300"
-          onClick={sendPromptToOllama}
-        >
-          <Send />
-        </button>
-      </div>
+      {response !== '' && (
+        <div className="sm:mx-20 lg:mx-32 xl:mx-68 mt-4 text-center h-32 relative">
+          <textarea
+            type="text"
+            placeholder="Ask anything"
+            className="rounded-xl bg-neutral-700 w-full h-full p-3 focus:outline-0 resize-none"
+            onChange={e => setPrompt(e.target.value)}
+          />
+          <button
+            className="absolute bottom-2 right-2 p-2 rounded-full bg-white text-black hover:bg-neutral-300"
+            onClick={sendPromptToOllama}
+          >
+            <Send />
+          </button>
+        </div>
+      )}
     </div>
   )
 }
