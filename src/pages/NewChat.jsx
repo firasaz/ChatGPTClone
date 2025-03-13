@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,11 +10,13 @@ import { Atom, ChevronDown, Send, Share, Sparkles } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import 'github-markdown-css' // Import GitHub Markdown styles
 import classNames from 'classnames'
+import { Models } from '@/data/models'
 
 const NewChat = () => {
   const [prompt, setPrompt] = useState('')
   const [response, setResponse] = useState('')
   const [loading, setLoading] = useState(false)
+  const [model, setModel] = useState(Models[0])
 
   const sendPromptToOllama = async () => {
     setResponse('')
@@ -25,7 +27,7 @@ const NewChat = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'deepseek-r1:8b',
+          model: model.Name,
           stream: true,
           prompt,
         }),
@@ -63,6 +65,7 @@ const NewChat = () => {
       console.groupEnd()
     }
   }
+
   return (
     <div className="bg-neutral-800 flex-1 p-2 text-white flex flex-col h-screen">
       {/* Header */}
@@ -70,29 +73,22 @@ const NewChat = () => {
         <DropdownMenu>
           <DropdownMenuTrigger>
             <div className="flex gap-1 items-center p-2 rounded-lg hover:bg-neutral-700 opacity-75 text-lg">
-              ChatGPT
+              {model.Title}
               <ChevronDown />
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="ml-54 w-80 bg-neutral-700 border-neutral-500 text-white rounded-xl px-1 py-3">
-            <DropdownMenuItem>
-              <div className="bg-neutral-600 p-1 rounded-full">
-                <Sparkles className="text-white" />
-              </div>
-              <div>
-                <p>ChatGPT Plus</p>
-                <p className="text-xs opacity-75">Great for everyday tasks</p>
-              </div>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <div className="bg-neutral-600 p-1 rounded-full">
-                <Atom className="text-white" />
-              </div>
-              <div>
-                <p>ChatGPT</p>
-                <p className="text-xs opacity-75">Great for everyday tasks</p>
-              </div>
-            </DropdownMenuItem>
+            {Models.map(Model => (
+              <DropdownMenuItem key={Model.Name} onClick={() => { setModel(Model) }}>
+                <div className="bg-neutral-600 p-1 rounded-full">
+                  <Model.Icon className='text-white' />
+                </div>
+                <div>
+                  <p>{Model.Title}</p>
+                  <p className="text-xs opacity-75">{Model.Description}</p>
+                </div>
+              </DropdownMenuItem>
+            ))}
           </DropdownMenuContent>
         </DropdownMenu>
         <div className="flex gap-2">
@@ -114,13 +110,11 @@ const NewChat = () => {
         {response && (
           <div className="h-full">
             {/* User Prompt */}
-            {prompt && (
-              <div className="text-right my-2">
-                <span className="px-4 py-2 rounded-full bg-neutral-700">
-                  {prompt}
-                </span>
-              </div>
-            )}
+            <div className="text-right my-2">
+              <span className="px-4 py-2 rounded-full bg-neutral-700">
+                {prompt}
+              </span>
+            </div>
             {response && (
               <div className="word-break mt-5">
                 <ReactMarkdown>{response}</ReactMarkdown>
