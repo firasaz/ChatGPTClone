@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Send, Share } from 'lucide-react'
+import { Loader, Send, Share } from 'lucide-react'
 import classNames from 'classnames'
 import { Button } from '@/components/ui/button'
 import ModelsDropdown from '@/components/ModelsDropdown'
@@ -9,12 +9,19 @@ import 'github-markdown-css' // Import GitHub Markdown styles
 
 const NewChat = () => {
   const [prompt, setPrompt] = useState('')
-  const [response, setResponse] = useState('')
+  const [response, setResponse] = useState(null)
   const [loading, setLoading] = useState(false)
   const [models, setModels] = useState([])
   const [model, setModel] = useState({})
 
+  const controller = new AbortController()
   const sendPromptToOllama = async () => {
+    console.log('request submitted...')
+    if (loading) {
+      console.log('aborting...')
+      controller.abort()
+      return
+    }
     setResponse('')
     setLoading(true)
 
@@ -26,7 +33,8 @@ const NewChat = () => {
           model: model.name,
           stream: true,
           prompt,
-        })
+        }),
+        { signal: controller.signal }
       )
       if (res.status === 404) throw new Error('No AI model found!')
 
@@ -92,7 +100,7 @@ const NewChat = () => {
           !response ? 'justify-center items-center' : 'justify-between mt-8'
         )}
       >
-        {response && (
+        {response !== null && (
           <div className="h-full">
             {/* User Prompt */}
             <div className="text-right my-2">
@@ -100,14 +108,12 @@ const NewChat = () => {
                 {prompt}
               </span>
             </div>
-            {response && (
-              <div className="word-break mt-5">
-                <ReactMarkdown>{response}</ReactMarkdown>
-              </div>
-            )}
+            <div className="word-break mt-5">
+              <ReactMarkdown>{response}</ReactMarkdown>
+            </div>
           </div>
         )}
-        {!response && (
+        {response === null && (
           <div className="text-center h-32 relative w-full">
             <h3 className="text-2xl font-medium mb-3">
               What can I help you with?
@@ -129,7 +135,7 @@ const NewChat = () => {
       </div>
 
       {/* Footer */}
-      {response !== '' && (
+      {response !== null && (
         <div className="sm:mx-20 lg:mx-32 xl:mx-68 mt-4 text-center h-32 relative">
           <textarea
             type="text"
@@ -141,7 +147,7 @@ const NewChat = () => {
             className="absolute bottom-2 right-2 p-2 rounded-full bg-white text-black hover:bg-neutral-300"
             onClick={sendPromptToOllama}
           >
-            <Send />
+            {loading ? <Loader className='animate-spin' /> : <Send />}
           </button>
         </div>
       )}
