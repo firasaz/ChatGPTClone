@@ -1,37 +1,33 @@
 import React, { useEffect, useState } from 'react'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+import { Send, Share } from 'lucide-react'
+import classNames from 'classnames'
 import { Button } from '@/components/ui/button'
-import { Atom, ChevronDown, Send, Share, Sparkles } from 'lucide-react'
+import ModelsDropdown from '@/components/ModelsDropdown'
+import { callApi } from '@/lib/utils'
 import ReactMarkdown from 'react-markdown'
 import 'github-markdown-css' // Import GitHub Markdown styles
-import classNames from 'classnames'
-import { Models } from '@/data/models'
 
 const NewChat = () => {
   const [prompt, setPrompt] = useState('')
   const [response, setResponse] = useState('')
   const [loading, setLoading] = useState(false)
-  const [model, setModel] = useState(Models[0])
+  const [models, setModels] = useState([])
+  const [model, setModel] = useState({})
 
   const sendPromptToOllama = async () => {
     setResponse('')
     setLoading(true)
 
     try {
-      const res = await fetch('http://localhost:11434/api/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: model.Name,
+      const res = await callApi(
+        'http://localhost:11434/api/generate',
+        'POST',
+        JSON.stringify({
+          model: model.name,
           stream: true,
           prompt,
-        }),
-      })
+        })
+      )
       if (res.status === 404) throw new Error('No AI model found!')
 
       if (!res.body) throw new Error('No response body!')
@@ -66,31 +62,20 @@ const NewChat = () => {
     }
   }
 
+  useEffect(() => {
+    const downloadedModels = async () => {
+      const res = await callApi('http://localhost:11434/api/tags')
+      const data = await res.json()
+      setModel(data.models[0])
+      setModels(data.models)
+    }
+    downloadedModels()
+  }, [])
   return (
     <div className="bg-neutral-800 flex-1 p-2 text-white flex flex-col h-screen">
       {/* Header */}
       <div className="flex justify-between items-center">
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <div className="flex gap-1 items-center p-2 rounded-lg hover:bg-neutral-700 opacity-75 text-lg">
-              {model.Title}
-              <ChevronDown />
-            </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="ml-54 w-80 bg-neutral-700 border-neutral-500 text-white rounded-xl px-1 py-3">
-            {Models.map(Model => (
-              <DropdownMenuItem key={Model.Name} onClick={() => { setModel(Model) }}>
-                <div className="bg-neutral-600 p-1 rounded-full">
-                  <Model.Icon className='text-white' />
-                </div>
-                <div>
-                  <p>{Model.Title}</p>
-                  <p className="text-xs opacity-75">{Model.Description}</p>
-                </div>
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <ModelsDropdown models={models} model={model} setModel={setModel} />
         <div className="flex gap-2">
           <Button className="rounded-full" variant="secondary">
             <Share />

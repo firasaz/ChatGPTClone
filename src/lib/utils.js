@@ -4,3 +4,20 @@ import { twMerge } from 'tailwind-merge'
 export function cn(...inputs) {
   return twMerge(clsx(inputs))
 }
+
+export const callApi = async (endpoint, operation = 'GET', body = {}) => {
+  try {
+    const reqOptions = {
+      method: operation,
+      headers: { 'Content-Type': 'application/json' },
+    }
+    if (operation !== 'GET') {
+      reqOptions.body = body
+    }
+    const res = await fetch(endpoint, reqOptions)
+    return res
+  } catch (err) {
+    console.error('Error in fetch request:', err)
+    return 'something went wrong...'
+  }
+}
