@@ -82,7 +82,7 @@ const NewChat = () => {
   return (
     <div className="bg-neutral-800 flex-1 p-2 text-white flex flex-col h-screen">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center border-b pb-1">
         <ModelsDropdown models={models} model={model} setModel={setModel} />
         <div className="flex gap-2">
           <Button className="rounded-full" variant="secondary">
@@ -103,10 +103,10 @@ const NewChat = () => {
         {response !== null && (
           <div className="h-full">
             {/* User Prompt */}
-            <div className="text-right my-2">
-              <span className="px-4 py-2 rounded-full bg-neutral-700">
+            <div className="my-2 flex flex-col items-end">
+              <div className="px-4 py-2 rounded-2xl bg-neutral-700 w-100">
                 {prompt}
-              </span>
+              </div>
             </div>
             <div className="word-break mt-5">
               <ReactMarkdown>{response}</ReactMarkdown>
