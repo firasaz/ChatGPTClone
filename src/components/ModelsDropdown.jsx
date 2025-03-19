@@ -7,13 +7,14 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { ChevronDown } from 'lucide-react'
 import { capitalizeModelName } from '@/lib/utils'
+import classNames from 'classnames'
 
-const ModelsDropdown = ({ models, model, setModel }) => {
+const ModelsDropdown = ({ models, selectedModel, setModel }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className='focus:outline-none'>
         <div className="flex gap-1 items-center p-2 rounded-lg hover:bg-neutral-700 opacity-75 text-lg font-medium">
-          {capitalizeModelName(model.name)}
+          {capitalizeModelName(selectedModel.name)}
           <ChevronDown />
         </div>
       </DropdownMenuTrigger>
@@ -24,7 +25,7 @@ const ModelsDropdown = ({ models, model, setModel }) => {
             onClick={() => {
               setModel(model)
             }}
-            className={'hover:bg-neutral-600 py-2'}
+            className={classNames('hover:bg-neutral-600 py-2', selectedModel.model === model.model ? 'bg-neutral-600' : '')}
           >
             {/* <div className="bg-neutral-600 p-1 rounded-full">
               <Model.Icon className="text-white" />

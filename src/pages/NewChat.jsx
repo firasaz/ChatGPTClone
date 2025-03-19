@@ -74,7 +74,7 @@ const NewChat = () => {
     const downloadedModels = async () => {
       const res = await callApi('http://localhost:11434/api/tags')
       const data = await res.json()
-      setModel(data.models[0])
+      setModel(data.models.find(model => model.model === 'deepseek-r1:1.5b') ?? data.models[0])
       setModels(data.models)
     }
     downloadedModels()
@@ -83,7 +83,7 @@ const NewChat = () => {
     <div className="bg-neutral-800 flex-1 p-2 text-white flex flex-col h-screen">
       {/* Header */}
       <div className="flex justify-between items-center border-b pb-1">
-        <ModelsDropdown models={models} model={model} setModel={setModel} />
+        <ModelsDropdown models={models} selectedModel={model} setModel={setModel} />
         <div className="flex gap-2">
           <Button className="rounded-full" variant="secondary">
             <Share />
@@ -97,7 +97,8 @@ const NewChat = () => {
       <div
         className={classNames(
           'sm:mx-20 lg:mx-32 xl:mx-56 flex flex-col h-full overflow-auto px-4',
-          !response ? 'justify-center items-center' : 'justify-between mt-8'
+          !response ? 'justify-center' : 'justify-between',
+          (prompt && response) || loading ? 'mt-8' : ''
         )}
       >
         {response !== null && (
