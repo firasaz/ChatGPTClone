@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import MainLayout from './Layouts/MainLayout'
 import NotFoundPage from './components/NotFoundPage'
-import NewChat from './pages/NewChat'
+import ChatWrapper from './pages/ChatWrapper'
 
 function App() {
   const routes = createBrowserRouter([
@@ -12,7 +12,7 @@ function App() {
       children: [
         {
           path: '/',
-          element: <NewChat />,
+          element: <ChatWrapper />,
         },
       ],
     },
