@@ -8,13 +8,9 @@ const NewChat = ({ inputChange, onSubmit }) => {
   const { prompt, response, loading } = useContext(ChatContext)
 
   return (
-    <div className="bg-neutral-800 flex-1 p-2 text-white flex flex-col h-screen">
+    <>
       {/* Body */}
-      <div
-        className={
-          'sm:mx-20 lg:mx-32 xl:mx-56 flex flex-col h-full overflow-auto px-4 justify-between mt-8'
-        }
-      >
+      <div className="sm:mx-20 lg:mx-32 xl:mx-56 flex flex-col h-full overflow-auto px-4 justify-between mt-8">
         <div className="h-full">
           {/* User Prompt */}
           <div className="my-2 flex flex-col items-end">
@@ -43,7 +39,7 @@ const NewChat = ({ inputChange, onSubmit }) => {
           {loading ? <Loader className="animate-spin" /> : <Send />}
         </button>
       </div>
-    </div>
+    </>
   )
 }
 
