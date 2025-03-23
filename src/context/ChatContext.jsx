@@ -1,4 +1,5 @@
-import { createContext, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
+import { callApi } from '@/lib/utils'
 
 // Create the Context
 export const ChatContext = createContext()
@@ -11,7 +12,8 @@ export const ChatProvider = ({ children }) => {
   const [models, setModels] = useState([])
   const [model, setModel] = useState({})
 
-  const sendPromptToOllama = async () => {
+  const controller = new AbortController()
+  const sendPromptToOllama = async prompt => {
     console.log('request submitted...')
     if (loading) {
       console.log('aborting...')

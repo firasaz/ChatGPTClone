@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import MainLayout from './Layouts/MainLayout'
 import NotFoundPage from './components/NotFoundPage'
 import ChatWrapper from './pages/ChatWrapper'
+import { ChatProvider } from '@/context/ChatContext'
 
 function App() {
   const routes = createBrowserRouter([
@@ -12,7 +13,11 @@ function App() {
       children: [
         {
           path: '/',
-          element: <ChatWrapper />,
+          element: (
+            <ChatProvider>
+              <ChatWrapper />
+            </ChatProvider>
+          ),
         },
       ],
     },
