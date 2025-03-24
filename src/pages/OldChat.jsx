@@ -4,7 +4,7 @@ import ReactMarkdown from 'react-markdown'
 import 'github-markdown-css' // Import GitHub Markdown styles
 import { ChatContext } from '@/context/ChatContext'
 
-const NewChat = ({ inputChange, onSubmit }) => {
+const OldChat = ({ inputChange, onSubmit }) => {
   const { prompt, response, loading } = useContext(ChatContext)
 
   return (
@@ -43,4 +43,4 @@ const NewChat = ({ inputChange, onSubmit }) => {
   )
 }
 
-export default NewChat
+export default OldChat

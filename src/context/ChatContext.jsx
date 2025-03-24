@@ -31,6 +31,7 @@ export const ChatProvider = ({ children }) => {
           model: model.name,
           stream: true,
           prompt,
+          // messages: [{ role: 'user', content: prompt }],
         }),
         { signal: controller.signal }
       )
