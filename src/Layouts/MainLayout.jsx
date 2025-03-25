@@ -2,13 +2,16 @@ import React from 'react'
 import { Outlet } from 'react-router-dom'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import AppSidebar from '../components/AppSidebar'
+import { ChatProvider } from '@/context/ChatContext'
 
 const MainLayout = () => {
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <Outlet />
-    </SidebarProvider>
+    <ChatProvider>
+      <SidebarProvider>
+        <AppSidebar />
+        <Outlet />
+      </SidebarProvider>
+    </ChatProvider>
   )
 }
 

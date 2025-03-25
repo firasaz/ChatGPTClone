@@ -18,7 +18,8 @@ export const callApi = async (
       ...options,
     }
     if (operation !== 'GET') {
-      reqOptions.body = body
+      reqOptions.body = JSON.stringify(body)
+      console.log(reqOptions.body)
     }
     // console.log(reqOptions)
     const res = await fetch(endpoint, reqOptions)

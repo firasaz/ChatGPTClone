@@ -12,6 +12,8 @@ export const ChatProvider = ({ children }) => {
   const [models, setModels] = useState([])
   const [model, setModel] = useState({})
 
+  const [oldChatLayout, setOldChatLayout] = useState(false)
+
   const controller = new AbortController()
   const sendPromptToOllama = async prompt => {
     console.log('request submitted...')
@@ -96,6 +98,8 @@ export const ChatProvider = ({ children }) => {
     models,
     model,
     handleSetModel,
+    oldChatLayout,
+    setOldChatLayout,
 
     sendPromptToOllama,
   }

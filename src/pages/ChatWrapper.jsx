@@ -7,11 +7,17 @@ import NewChat from './NewChat'
 import OldChat from './OldChat'
 
 const ChatWrapper = () => {
-  const { prompt, response, handleSetPrompt, sendPromptToOllama } =
-    useContext(ChatContext)
+  const {
+    prompt,
+    handleSetPrompt,
+    sendPromptToOllama,
+    oldChatLayout,
+    setOldChatLayout,
+  } = useContext(ChatContext)
   const [userInput, setUserInput] = useState(prompt)
 
   const handleSubmit = async () => {
+    setOldChatLayout(true)
     handleSetPrompt(userInput)
     sendPromptToOllama(userInput)
   }
@@ -28,8 +34,8 @@ const ChatWrapper = () => {
           <Button className="rounded-full">F</Button>
         </div>
       </div>
-      {response === null ? (
-        <NewChat inputChange={setUserInput} onSubmit={handleSubmit} />
+      {!oldChatLayout ? (
+        <NewChat inputChange={setUserInput} onSubmit={handleSubmit} input={userInput} />
       ) : (
         <OldChat inputChange={setUserInput} onSubmit={handleSubmit} />
       )}

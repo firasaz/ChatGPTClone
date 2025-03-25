@@ -1,9 +1,20 @@
 import React from 'react'
 import { Send } from 'lucide-react'
-import classNames from 'classnames'
 import 'github-markdown-css' // Import GitHub Markdown styles
+import { callApi } from '@/lib/utils'
 
-const NewChat = ({ inputChange, onSubmit }) => {
+const NewChat = ({ inputChange, onSubmit, input }) => {
+  const createNewChat = async () => {
+    console.log(input)
+    const body = {
+      "user": "1",
+      "title": input.slice(0, 10)
+    }
+    const res = await callApi('http://localhost:8000/api/chat/new-chat/', 'POST', body)
+    const data = await res.json()
+    console.log(data)
+    onSubmit
+  }
   return (
     <div className="sm:mx-20 lg:mx-32 xl:mx-56 flex flex-col h-full overflow-auto px-4 justify-center">
       <div className="text-center h-32 relative w-full">
@@ -16,7 +27,7 @@ const NewChat = ({ inputChange, onSubmit }) => {
         />
         <button
           className="absolute bottom-2 right-2 p-2 rounded-full bg-white text-black hover:bg-neutral-300"
-          onClick={onSubmit}
+          onClick={createNewChat}
         >
           <Send />
         </button>

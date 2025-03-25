@@ -1,12 +1,32 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Loader, Send } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import 'github-markdown-css' // Import GitHub Markdown styles
 import { ChatContext } from '@/context/ChatContext'
+import { useParams } from 'react-router-dom'
+import { callApi } from '@/lib/utils'
 
 const OldChat = ({ inputChange, onSubmit }) => {
   const { prompt, response, loading } = useContext(ChatContext)
+  const { chatId } = useParams()
+  const [filteredData, setFilteredData] = useState([])
 
+  useEffect(() => {
+    const fetchChatMessages = async () => {
+      try {
+        const res = await callApi('http://localhost:8000/api/messages/messages-list/')
+        const data = await res.json()
+        setFilteredData(data.filter(msg => msg.id == chatId))
+        console.log(data[0]?.message)
+        console.log(data.filter(msg => msg.id == chatId))
+      } catch(err) {
+        console.groupCollapsed('messages errors')
+        console.error(err)
+        console.groupEnd()
+      }
+    }
+    fetchChatMessages()
+  }, [chatId])
   return (
     <>
       {/* Body */}
@@ -15,7 +35,7 @@ const OldChat = ({ inputChange, onSubmit }) => {
           {/* User Prompt */}
           <div className="my-2 flex flex-col items-end">
             <div className="px-4 py-2 rounded-2xl bg-neutral-700 w-100">
-              {prompt}
+              {filteredData?.[0]?.is_mesage_artificial === false && filteredData?.[0]?.message}
             </div>
           </div>
           <div className="word-break mt-5">
