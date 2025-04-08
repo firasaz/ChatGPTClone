@@ -14,12 +14,12 @@ const OldChat = ({ inputChange, onSubmit }) => {
   useEffect(() => {
     const fetchChatMessages = async () => {
       try {
-        const res = await callApi('http://localhost:8000/api/messages/messages-list/')
+        const res = await callApi(
+          'http://localhost:8000/api/messages/messages-list/'
+        )
         const data = await res.json()
         setFilteredData(data.filter(msg => msg.id == chatId))
-        console.log(data[0]?.message)
-        console.log(data.filter(msg => msg.id == chatId))
-      } catch(err) {
+      } catch (err) {
         console.groupCollapsed('messages errors')
         console.error(err)
         console.groupEnd()
@@ -27,17 +27,36 @@ const OldChat = ({ inputChange, onSubmit }) => {
     }
     fetchChatMessages()
   }, [chatId])
+
+  useEffect(() => {
+    console.log(filteredData)
+  }, [filteredData])
   return (
     <>
       {/* Body */}
       <div className="sm:mx-20 lg:mx-32 xl:mx-56 flex flex-col h-full overflow-auto px-4 justify-between mt-8">
         <div className="h-full">
           {/* User Prompt */}
-          <div className="my-2 flex flex-col items-end">
-            <div className="px-4 py-2 rounded-2xl bg-neutral-700 w-100">
-              {filteredData?.[0]?.is_mesage_artificial === false && filteredData?.[0]?.message}
+          {filteredData?.map(msg => {
+            return !msg.is_artificial_message ? (
+              <div className="my-2 flex flex-col items-end">
+                <div className="px-4 py-2 rounded-2xl bg-neutral-700 w-100">
+                  {msg.message}
+                </div>
+              </div>
+            ) : (
+              <div className="word-break mt-5">
+                <ReactMarkdown>{msg.message}</ReactMarkdown>
+              </div>
+            )
+          })}
+          {prompt && (
+            <div className="my-2 flex flex-col items-end">
+              <div className="px-4 py-2 rounded-2xl bg-neutral-700 w-100">
+                {prompt}
+              </div>
             </div>
-          </div>
+          )}
           <div className="word-break mt-5">
             <ReactMarkdown>{response}</ReactMarkdown>
           </div>

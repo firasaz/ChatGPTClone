@@ -29,12 +29,12 @@ export const ChatProvider = ({ children }) => {
       const res = await callApi(
         'http://localhost:11434/api/generate',
         'POST',
-        JSON.stringify({
+        {
           model: model.name,
           stream: true,
           prompt,
           // messages: [{ role: 'user', content: prompt }],
-        }),
+        },
         { signal: controller.signal }
       )
       if (res.status === 404) throw new Error('No AI model found!')
